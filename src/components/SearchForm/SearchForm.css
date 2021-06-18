@@ -1,0 +1,143 @@
+.search {
+  display: grid;
+  grid-gap: 26px;
+  padding: 70px 0 43px;
+  border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+}
+
+.search__fieldset {
+  height: 72px;
+  display: grid;
+  grid-template-columns: auto min-content;
+  grid-template-rows: 49px;
+  grid-gap: 10px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px;
+  border: 1.5px solid rgba(170, 170, 170, 0.2);
+  border-radius: 8px;
+  transition: all 0.25s ease-in-out;
+}
+
+.search__fieldset:hover,
+.search__fieldset:focus-within {
+  box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);
+}
+
+.search__fieldset:focus-within {
+  border: 1px solid rgba(52, 86, 243, 0.5);
+}
+
+.search__input {
+  width: 100%;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  padding: 15px;
+  
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  color: #a0a0a0;
+}
+
+.search__submit {
+  height: 100%;
+  min-width: 100px;
+  background-color: rgb(52, 86, 243);
+  border-radius: 5px;
+  border: none;
+  outline: none;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+  padding: 0 20px;
+}
+
+.search__submit:hover {
+  background-color: rgb(52, 86, 243, 0.8);
+}
+
+.search__switch {
+  width: max-content;
+  display: flex;
+  align-items: center;
+}
+
+.search__switch-checkbox {
+  cursor: pointer;
+}
+
+.search__switch-input {
+  display: none;
+}
+
+.search__switch-input:checked + .search__switch-checkbox-replica {
+  background-color: #fff;
+}
+.search__switch-input:checked + .search__switch-checkbox-replica .search__switch-checkbox-knob {
+  left: 16px;
+  background-color: #2be080;
+}
+
+.search__switch-checkbox-replica {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);
+  width: 36px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.search__switch-checkbox-replica:hover {
+  opacity: 0.8;
+}
+
+.search__switch-checkbox-knob {
+  background-color: #f5f5f5;
+  border-radius: 100%;
+  display: inline-block;
+  margin-left: 2px;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  left: 0;
+  transition: left 100ms ease-in-out 0s;
+}
+
+.search__switch-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  padding-left: 14px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  .search__fieldset {
+    height: 56px;
+    grid-template-rows: 44px;
+    grid-gap: 10px;
+    padding: 4px;
+  }
+
+  .search__input {
+    padding: 15px 8px;
+    font-size: 16px;
+    line-height: 16px;
+  }
+  
+  .search__submit {
+    min-width: 80px;
+    font-style: normal;
+    padding: 0 10px;
+  }
+}

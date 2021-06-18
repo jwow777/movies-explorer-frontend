@@ -1,0 +1,11 @@
+.movies__container {
+  max-width: 1140px;
+  margin: auto;
+  padding: 0 30px;
+}
+
+@media screen and (max-width: 767px) {
+  .movies__container {
+    padding: 0 10px;
+  }
+}

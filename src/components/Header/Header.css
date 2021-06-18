@@ -1,0 +1,102 @@
+.header {
+  max-width: 1140px;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  align-items: center;
+  margin: auto;
+  padding: 0 30px;
+}
+
+.header__logo-link {
+  width: max-content;
+}
+
+.header__logo-link:hover {
+  opacity: 0.8;
+}
+
+.header__logo {
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.header__block {
+  display: grid;
+  align-items: center;
+}
+
+.header__block_login {
+  justify-self: right;
+}
+
+.header__block_nologin {
+  grid-column: 3;
+  justify-self: right;
+  grid-template-columns: repeat(2, max-content);
+  grid-gap: 30px;
+}
+
+.header__link {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.header__link:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.header__login {
+  background-color: #2be080;
+  border-radius: 3px;
+  padding: 8px 20px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.header__login:hover {
+  color: rgba(0, 0, 0, 1);
+}
+
+.header__menu {
+  display: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .header__block_login {
+    grid-column: 3;
+  }
+
+  .header__menu {
+    display: block;
+    background-color: #fff;
+  }
+
+  .header__menu-icon {
+    display: block;
+    width: 44px;
+    height: 44px;
+  }
+
+  .header__menu-icon:hover {
+    opacity: 0.8;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    padding: 0 14px;
+  }
+
+  .header__block_nologin {
+    grid-gap: 14px;
+  }
+
+  .header__login {
+    padding: 5px 12px;
+  }
+}
