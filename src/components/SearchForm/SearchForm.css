@@ -25,7 +25,7 @@
 }
 
 .search__fieldset:focus-within {
-  border: 1px solid rgba(52, 86, 243, 0.5);
+  border: 1.5px solid rgba(52, 86, 243, 0.5);
 }
 
 .search__input {

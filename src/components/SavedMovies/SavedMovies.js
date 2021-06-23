@@ -19,7 +19,7 @@ function SavedMovies() {
           ? <Preloader />
           : (
               <>
-                <MoviesCardList/>
+                <MoviesCardList saved={true}/>
                 <MoreContent />
               </>
             )

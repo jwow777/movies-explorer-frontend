@@ -16,7 +16,7 @@ function SearchForm() {
   return (
     <form className='search'>
       <fieldset className='search__fieldset'>
-        <input type='text' className='search__input' name='search' placeholder='Фильм' value={state.search} onChange={handleChange}/>
+        <input type='text' className='search__input' name='search' placeholder='Фильм' required value={state.search} onChange={handleChange}/>
         <button className='button search__submit' onClick={handleSubmit}>Поиск</button>
       </fieldset>
       <div className='button search__switch'>
