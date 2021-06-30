@@ -1,7 +1,5 @@
 import { API_MAIN_URL } from "./constants";
 
-const token = localStorage.getItem('jwt');
-
 class MainApi {
   constructor(baseUrl) {
     this._baseUrl = baseUrl;
@@ -47,7 +45,7 @@ class MainApi {
     .then((res) => this._checkResponse(res));
   }
 
-  updateUserInfo(name, email) {
+  updateUserInfo(name, email, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -70,7 +68,7 @@ class MainApi {
       .then((res) => this._checkResponse(res));
   };
 
-  saveMovie(movieData) {
+  saveMovie(movieData, token) {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: {
@@ -82,7 +80,7 @@ class MainApi {
       .then((res) => this._checkResponse(res));
   };
 
-  removeMovie(movie) {
+  removeMovie(movie, token) {
     return fetch(`${this._baseUrl}/movies/${movie._id}`, {
       method: 'DELETE',
       headers: {

@@ -16,17 +16,17 @@ function MoviesCard({ item, state, saved, handleClickSaveMovie, handleClickRemov
     } else {
       const API_MOVIES_BASE_URL = 'https://api.nomoreparties.co';
       const movieData = {
-        country: item.country,
-        director: item.director,
-        duration: item.duration,
-        year: item.year,
-        description: item.description,
-        image: `${API_MOVIES_BASE_URL}${item.image.url}`,
-        trailer: item.trailerLink,
-        thumbnail: `${API_MOVIES_BASE_URL}${item.image.formats.thumbnail.url}`,
-        movieId: item.id,
-        nameRU: item.nameRU,
-        nameEN: item.nameEN,
+        country: item.country || 'Not Found',
+        director: item.director || 'Not Found',
+        duration: item.duration || 'Not Found',
+        year: item.year || 'Not Found',
+        description: item.description || 'Not Found',
+        image: `${API_MOVIES_BASE_URL}${item.image.url}` || 'Not Found',
+        trailer: item.trailerLink || 'Not Found',
+        thumbnail: `${API_MOVIES_BASE_URL}${item.image.formats.thumbnail.url}` || 'Not Found',
+        movieId: item.id || 'Not Found',
+        nameRU: item.nameRU || 'Not Found',
+        nameEN: item.nameEN || 'Not Found',
       };
       handleClickSaveMovie(movieData)
     };

@@ -73,7 +73,7 @@ function App() {
           savedMovieList,
         ]) => {
           setCurrentUser(userData);
-          setState({ ...state, movieList, savedMovieList })
+          setState({ ...state, movieList, savedMovieList: savedMovieList.filter(movie => movie.owner === userData._id) })
         })
         .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`))
         .finally(() => setIsLoading(false));
@@ -85,8 +85,7 @@ function App() {
     return MainApi.login(email, password)
       .then((data) => {
         localStorage.setItem('jwt', data.token);
-        tokenCheck(localStorage.jwt);
-        setIsLoggedIn(true);
+        tokenCheck(data.token);
         history.push('/movies');
       })
       .catch((err) => {
@@ -121,8 +120,9 @@ function App() {
   };
 
   const handleEditProfile = (data) => {
+    const token = localStorage.getItem('jwt');
     const { name, email } = data;
-    return MainApi.updateUserInfo(name, email)
+    return MainApi.updateUserInfo(name, email, token)
       .then((res) => {
         setCurrentUser(res);
         setSuccessText(true);
@@ -147,9 +147,9 @@ function App() {
   };
 
   const handleClickSaveMovie = (movie) => {
-    return MainApi.saveMovie(movie)
+    const token = localStorage.getItem('jwt');
+    return MainApi.saveMovie(movie, token)
       .then((savedMovie) => {
-        console.log(savedMovie)
         setState({
           ...state,
           savedMovieList: [...state.savedMovieList, savedMovie],
@@ -159,7 +159,8 @@ function App() {
   };
 
   const handleClickRemoveSavedMovie = (movieId) => {
-    return MainApi.removeMovie(movieId)
+    const token = localStorage.getItem('jwt');
+    return MainApi.removeMovie(movieId, token)
       .then((deletedMovie) => {
         const updateMovieList = state.savedMovieList.filter((i) => i._id !== deletedMovie._id);
         setState({ ...state, savedMovieList: updateMovieList, filteredSavedMovieList: updateMovieList })
