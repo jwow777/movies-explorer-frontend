@@ -2,26 +2,42 @@ import { useEffect, useState } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
-import MoreContent from '../MoreContent/MoreContent';
 import './SavedMovies.css';
 
-function SavedMovies() {
-  const [isLoading, setIsLoading] = useState(true);
+function SavedMovies({ state, setState, handleClickRemoveSavedMovie, isLoading }) {
+  const [moviesArray, setMoviesArray] = useState([]);
   useEffect(() => {
-    const loadingTimeout = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(loadingTimeout);
-  }, []);
+    if (!state.movieSavedSearchSubmitClick) {
+      setMoviesArray(state.savedMovieList);
+    } else {
+      if (state.filteredSavedMovieList.length !== 0 && state.savedMovieSearch.length !== '') {
+        setMoviesArray(state.filteredSavedMovieList)
+      } else {
+        return setMoviesArray([])
+      }
+    }
+  }, [state.movieSavedSearchSubmitClick, state.filteredSavedMovieList, state.savedMovieList, state.savedMovieSearch.length])
+
   return (
     <main className='movies'>
       <div className='movies__container'>
-        <SearchForm />
+        <SearchForm
+          state={state}
+          setState={setState}
+          saved={true}
+        />
         { isLoading
           ? <Preloader />
           : (
-              <>
-                <MoviesCardList saved={true}/>
-                <MoreContent />
-              </>
+              moviesArray.length > 0
+              ? <MoviesCardList
+                  moviesArray={moviesArray}
+                  state={state}
+                  setState={setState}
+                  saved={true}
+                  handleClickRemoveSavedMovie={handleClickRemoveSavedMovie}
+                />
+              : <p className='movies__not-found'>Ничего нет</p>
             )
         }
       </div>

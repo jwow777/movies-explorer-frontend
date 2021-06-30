@@ -39,6 +39,10 @@
   font-weight: normal;
   font-size: 18px;
   line-height: 20px;
+  color: #000;
+}
+
+.search__input::placeholder {
   color: #a0a0a0;
 }
 

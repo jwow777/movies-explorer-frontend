@@ -1,16 +1,22 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({ saved }) {
+function MoviesCardList({ moviesArray, state, saved, handleClickSaveMovie, handleClickRemoveSavedMovie }) {
   return (
     <section className='movies-list'>
       <div className='movies-list__container'>
-        <MoviesCard saved={saved}/>
-        <MoviesCard saved={saved}/>
-        <MoviesCard saved={saved}/>
-        <MoviesCard saved={saved}/>
-        <MoviesCard saved={saved}/>
-        <MoviesCard saved={saved}/>
+        { 
+          moviesArray.slice(0, state.numberMovies)
+            .map((item) => 
+              <MoviesCard
+                item={item}
+                state={state}
+                saved={saved}
+                handleClickSaveMovie={handleClickSaveMovie}
+                handleClickRemoveSavedMovie={handleClickRemoveSavedMovie}
+                key={item._id || item.id}
+              />)     
+        }
       </div>
     </section>
   );
