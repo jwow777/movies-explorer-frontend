@@ -16,6 +16,7 @@ import NotFound from '../NotFound/NotFound';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
 import { useFormWithValidation } from "../../utils/hooks";
+import { MORE_BUTTON_RESOLUTION_SETTINGS } from "../../utils/constants";
 import './App.css';
 
 function App() {
@@ -33,8 +34,9 @@ function App() {
     movieSavedSearchSubmitClick: false,
     filteredMoviesList: [],
     filteredSavedMovieList: [],
-    numberMovies: 12,
-    addNumberMovies: 3,
+    numberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.big.default,
+    addNumberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.big.grow,
+    disableInputs: false,
   })
   const handleClickSidebar = () => setIsOpenSidebar(true);
   const handleClickCloseSidebar = () => setIsOpenSidebar(false);
@@ -51,6 +53,7 @@ function App() {
         if (res) {
           setCurrentUser(res);
           setIsLoggedIn(true);
+          history.push('/movies');
         } else {
           Promise.reject();
         }
@@ -73,7 +76,11 @@ function App() {
           savedMovieList,
         ]) => {
           setCurrentUser(userData);
-          setState({ ...state, movieList, savedMovieList: savedMovieList.filter(movie => movie.owner === userData._id) })
+          setState({
+            ...state,
+            movieList,
+            savedMovieList: savedMovieList.filter(movie => movie.owner === userData._id)
+          });
         })
         .catch((err) => console.log(`Ошибка ${err.status} - ${err.statusText}`))
         .finally(() => setIsLoading(false));
@@ -82,11 +89,11 @@ function App() {
 
   const handleClickLogin = (data) => {
     const { email, password } = data;
+    setState({ ...state, disableInputs: true });
     return MainApi.login(email, password)
       .then((data) => {
         localStorage.setItem('jwt', data.token);
         tokenCheck(data.token);
-        history.push('/movies');
       })
       .catch((err) => {
         if (err.status && err.status === 401 ) {
@@ -96,19 +103,18 @@ function App() {
         } else {
           handleTextError('Ошибка выполнения команды. Попробуйте снова.');
         }
-      });
+      })
+      .finally(() => setState({ ...state, disableInputs: false }));
   };
 
   const handleClickRegistr = (data) => {
-    console.log(data)
     const { name, email, password } = data;
+    setState({ ...state, disableInputs: true });
     return MainApi.register(name, email, password)
       .then(() => {
-        console.log(email, password)
         return handleClickLogin({ email, password });
       })
       .catch((err) => {
-        console.log(err)
         if (err.status && err.status === 409 ) {
           handleTextError('Пользователь с таким email уже существует');
         } else if (err.status && err.status === 400) {
@@ -116,12 +122,14 @@ function App() {
         } else {
           handleTextError('Ошибка выполнения команды. Попробуйте снова.');
         }
-      });
+      })
+      .finally(() => setState({ ...state, disableInputs: false }));
   };
 
   const handleEditProfile = (data) => {
     const token = localStorage.getItem('jwt');
     const { name, email } = data;
+    setState({ ...state, disableInputs: true });
     return MainApi.updateUserInfo(name, email, token)
       .then((res) => {
         setCurrentUser(res);
@@ -136,7 +144,8 @@ function App() {
         } else {
           handleTextError('Ошибка выполнения команды. Попробуйте снова.');
         }
-      });
+      })
+      .finally(() => setState({ ...state, disableInputs: false }));
   };
 
   const handleClickLogout = () => {
@@ -194,6 +203,7 @@ function App() {
         </Route>
         <Route exact path='/signin'>
           <Login
+            state={state}
             handleClickLogin={handleClickLogin}
             useFormWithValidation={useFormWithValidation}
             errorText={errorText}
@@ -201,6 +211,7 @@ function App() {
         </Route>
         <Route exact path='/signup'>
           <Register
+            state={state}
             handleClickRegistr={handleClickRegistr}
             useFormWithValidation={useFormWithValidation}
             errorText={errorText}
@@ -229,6 +240,7 @@ function App() {
         />
         <ProtectedRoute
           exact path='/profile'
+          state={state}
           isLoggedIn={isLoggedIn}
           component={Profile}
           handleEditProfile={handleEditProfile}

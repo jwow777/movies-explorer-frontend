@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import './Profile.css';
 
-function Profile({ handleEditProfile, handleClickLogout, useFormWithValidation, errorText, successText }) {
+function Profile({ state, handleEditProfile, handleClickLogout, useFormWithValidation, errorText, successText }) {
   const currentUser = useContext(CurrentUserContext);
   const { values, errors, isValid, handleChange, setValues } = useFormWithValidation({});
 
@@ -34,6 +34,7 @@ function Profile({ handleEditProfile, handleClickLogout, useFormWithValidation, 
           name='name'
           value={values.name || ''}
           onChange={handleChange}
+          disabled={state.disableInputs}
           required
           minLength={2}
           maxLength={30}
@@ -52,6 +53,7 @@ function Profile({ handleEditProfile, handleClickLogout, useFormWithValidation, 
           name='email'
           value={values.email || ''}
           onChange={handleChange}
+          disabled={state.disableInputs}
           required
         />
         <div className='profile__submit-block'>
@@ -69,7 +71,7 @@ function Profile({ handleEditProfile, handleClickLogout, useFormWithValidation, 
             type='submit'
             className='button profile__link profile__link_submit'
             onClick={handleSubmit}
-            disabled={!isValid}
+            disabled={!isValid || state.disableInputs}
           >
             Редактировать
           </button>

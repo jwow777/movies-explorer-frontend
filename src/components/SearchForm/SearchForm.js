@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SHORT_MOVIE_DURATION } from '../../utils/constants';
 import './SearchForm.css';
 
 function SearchForm({ state, setState, saved }) {
@@ -13,7 +14,7 @@ function SearchForm({ state, setState, saved }) {
 
   const filteringMoviesArray = (movieList, searchValue) => {
     if (stateCheckbox) {
-      const shortMovie = movieList.filter((movie) => movie.duration <= 40 && handleFilter(movie, searchValue));
+      const shortMovie = movieList.filter((movie) => movie.duration <= SHORT_MOVIE_DURATION && handleFilter(movie, searchValue));
       return shortMovie;
     } else {
       const filteredMovies = movieList.filter((movie) => handleFilter(movie, searchValue));
@@ -41,6 +42,7 @@ function SearchForm({ state, setState, saved }) {
         filteredSavedMovieList: filteredSavedMoviesArray,
         movieSavedSearchSubmitClick: true,
       }); 
+      localStorage.setItem('filteredSavedMovieList', JSON.stringify(filteredSavedMoviesArray));
     } else {
       setState({ ...state, movieSearch: e.target.value });   
       const filteredMoviesArray = filteringMoviesArray(state.movieList, state.movieSearch);
@@ -48,7 +50,8 @@ function SearchForm({ state, setState, saved }) {
         ...state,
         filteredMoviesList: filteredMoviesArray,
         movieSearchSubmitClick: true,
-      }); 
+      });
+      localStorage.setItem('filteredMoviesList', JSON.stringify(filteredMoviesArray));
     }
   };
 
@@ -70,7 +73,6 @@ function SearchForm({ state, setState, saved }) {
         <span className='search__switch-checkbox'>
           <input
             type='checkbox'
-            id='switch'
             className='search__switch-input'
             name='checkbox'
             checked={stateCheckbox}
@@ -80,7 +82,7 @@ function SearchForm({ state, setState, saved }) {
             <span className='search__switch-checkbox-knob'></span>
           </span>
         </span>
-        <label htmlFor='switch' className='search__switch-text'>Короткометражки</label>
+        <p className='search__switch-text'>Короткометражки</p>
       </div>
     </form>
   );

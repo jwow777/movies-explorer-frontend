@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './Register.css';
 import logo from '../../images/login/logo.svg';
 
-function Register({ handleClickRegistr, useFormWithValidation, errorText }) {
+function Register({ state, handleClickRegistr, useFormWithValidation, errorText }) {
   const { values, errors, isValid, handleChange } = useFormWithValidation({});
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +24,7 @@ function Register({ handleClickRegistr, useFormWithValidation, errorText }) {
             name='name'
             value={values.name || ''}
             onChange={handleChange}
+            disabled={state.disableInputs}
             required
             minLength={2}
             maxLength={30}
@@ -41,6 +42,7 @@ function Register({ handleClickRegistr, useFormWithValidation, errorText }) {
             name='email'
             value={values.email || ''}
             onChange={handleChange}
+            disabled={state.disableInputs}
             required
           />
           {
@@ -56,6 +58,7 @@ function Register({ handleClickRegistr, useFormWithValidation, errorText }) {
             name='password'
             value={values.password || ''}
             onChange={handleChange}
+            disabled={state.disableInputs}
             required
           />
           {
@@ -73,7 +76,7 @@ function Register({ handleClickRegistr, useFormWithValidation, errorText }) {
               type='submit'
               className='button auth__submit'
               onClick={handleSubmit}
-              disabled={!isValid}
+              disabled={!isValid || state.disableInputs}
             >
               Зарегистрироваться
             </button>

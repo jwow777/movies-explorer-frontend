@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import logo from '../../images/login/logo.svg';
 
-function Login({ handleClickLogin, useFormWithValidation, errorText }) {
+function Login({ state, handleClickLogin, useFormWithValidation, errorText }) {
   const { values, errors, isValid, handleChange } = useFormWithValidation({});
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +24,7 @@ function Login({ handleClickLogin, useFormWithValidation, errorText }) {
             name='email'
             value={values.email || ''}
             onChange={handleChange}
+            disabled={state.disableInputs}
             required
           />
           {
@@ -39,6 +40,7 @@ function Login({ handleClickLogin, useFormWithValidation, errorText }) {
             name='password'
             value={values.password || ''}
             onChange={handleChange}
+            disabled={state.disableInputs}
             required
           />
           {
@@ -56,7 +58,7 @@ function Login({ handleClickLogin, useFormWithValidation, errorText }) {
               type='submit'
               className='button auth__submit'
               onClick={handleSubmit}
-              disabled={!isValid}
+              disabled={!isValid || state.disableInputs}
             >
               Войти
             </button>

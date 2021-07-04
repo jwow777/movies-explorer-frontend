@@ -8,15 +8,19 @@ function SavedMovies({ state, setState, handleClickRemoveSavedMovie, isLoading }
   const [moviesArray, setMoviesArray] = useState([]);
   useEffect(() => {
     if (!state.movieSavedSearchSubmitClick) {
-      setMoviesArray(state.savedMovieList);
+      // if (localStorage.filteredSavedMovieList) {
+      //   return setMoviesArray(JSON.parse(localStorage.filteredSavedMovieList));
+      // } else {
+        return setMoviesArray(state.savedMovieList);
+      // }
     } else {
       if (state.filteredSavedMovieList.length !== 0 && state.savedMovieSearch.length !== '') {
-        setMoviesArray(state.filteredSavedMovieList)
+        return setMoviesArray(state.filteredSavedMovieList);
       } else {
-        return setMoviesArray([])
+        return setMoviesArray([]);
       }
     }
-  }, [state.movieSavedSearchSubmitClick, state.filteredSavedMovieList, state.savedMovieList, state.savedMovieSearch.length])
+  }, [state.movieSavedSearchSubmitClick, state.filteredSavedMovieList, state.savedMovieList, state.savedMovieSearch.length]);
 
   return (
     <main className='movies'>

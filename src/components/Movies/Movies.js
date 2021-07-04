@@ -4,13 +4,18 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import MoreContent from '../MoreContent/MoreContent';
 import { useWindowWidthSettings } from "../../utils/hooks";
+import { MORE_BUTTON_TOP_WIDTH_THRESHOLD, MORE_BUTTON_BOTTOM_WIDTH_THRESHOLD, MORE_BUTTON_RESOLUTION_SETTINGS } from "../../utils/constants";
 import './Movies.css';
 
 function Movies({ state, setState, handleClickSaveMovie, handleClickRemoveSavedMovie, isLoading, setIsLoading }) {
   const [moviesArray, setMoviesArray] = useState([]);
   useEffect(() => {
     if (!state.movieSearchSubmitClick) {
-      return setMoviesArray(state.movieList);
+      if (localStorage.filteredMoviesList) {
+        return setMoviesArray(JSON.parse(localStorage.filteredMoviesList));
+      } else {
+        return setMoviesArray(state.movieList);
+      }
     } else {
       if (state.filteredMoviesList.length !== 0 && state.movieSearch.length !== '') {
         return setMoviesArray(state.filteredMoviesList)
@@ -22,12 +27,12 @@ function Movies({ state, setState, handleClickSaveMovie, handleClickRemoveSavedM
 
   const windowWidth = useWindowWidthSettings();
   useEffect(() => {
-    if (windowWidth > 1024) {
-      setState({ ...state, numberMovies: 12, addNumberMovies: 3 })
-    } else if (windowWidth > 666) {
-      setState({ ...state, numberMovies: 8, addNumberMovies: 2 })
+    if (windowWidth > MORE_BUTTON_TOP_WIDTH_THRESHOLD) {
+      setState({ ...state, numberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.big.default, addNumberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.big.grow })
+    } else if (windowWidth > MORE_BUTTON_BOTTOM_WIDTH_THRESHOLD) {
+      setState({ ...state, numberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.medium.default, addNumberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.medium.grow })
     } else {
-      setState({ ...state, numberMovies: 5, addNumberMovies: 2 })
+      setState({ ...state, numberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.small.default, addNumberMovies: MORE_BUTTON_RESOLUTION_SETTINGS.small.grow })
     }
   }, [windowWidth]);
 
